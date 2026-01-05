@@ -21,7 +21,7 @@
                 <TextBox Name="userEmail" FontSize="15"  Padding="5" BorderBrush="LightGray" LostFocus="userEmail_LostFocus"/>
             </GroupBox>
             <GroupBox Header="Születési dátum" Margin="40 5" BorderBrush="Transparent">
-                <DatePicker Name="userDate" FontSize="15"  Padding="5" BorderBrush="LightGray" HorizontalAlignment="Left" Width="304" LostFocus="userDate_LostFocus"/>
+                <DatePicker Name="userDate" FontSize="15"  Padding="5" BorderBrush="LightGray" HorizontalAlignment="Left" Width="304" SelectedDateChanged="userDate_SelectedDateChanged"/>
             </GroupBox>
             <GroupBox Header="Jelszó" Margin="40 5" BorderBrush="Transparent">
                 <PasswordBox Name="userPwd1" FontSize="15"  Padding="5" BorderBrush="LightGray" LostFocus="userPwd1_LostFocus"/>

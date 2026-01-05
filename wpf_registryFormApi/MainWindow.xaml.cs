@@ -59,28 +59,19 @@ namespace wpf_registryFormApi
             string pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
             return Regex.IsMatch(email, pattern);
         }
-
-        private void userDate_LostFocus(object sender, RoutedEventArgs e)
+        private void userDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
-            DateTime? selectedDate = userDate.SelectedDate;
+            if (userDate.SelectedDate == null)
+                return; // még nincs kiválasztva dátum
 
-            // Üresen hagyott mező → hiba
-            if (!selectedDate.HasValue)
-            {
-                MessageBox.Show("Kérem, válasszon egy dátumot!");
-                return;
-            }
-
-            DateTime date = selectedDate.Value;
+            DateTime date = userDate.SelectedDate.Value;
 
             // Nem lehet jövőbeli dátum
             if (date > DateTime.Today)
             {
                 MessageBox.Show("A dátum nem lehet a jövőben!");
-                return;
+                userDate.SelectedDate = null;
             }
-
-
         }
 
         private void userPwd1_LostFocus(object sender, RoutedEventArgs e)
@@ -115,18 +106,38 @@ namespace wpf_registryFormApi
 
         private void Registration_Click(object sender, RoutedEventArgs e)
         {
-            string url = "http://localhost:3000/users";
-            User newUser = new User()
-            { 
-                nev = userName.Text.Trim(),
-                email = userEmail.Text.Trim(),
-                szul_datum = userDate.SelectedDate?.ToString("yyyy-MM-dd"),
-                jelszo = userPwd1.Password.Trim()
-            };
-            string response = Backend.POST(url).Body(newUser).Send().As<string>();
-            users.Add(newUser);
-            MessageBox.Show(response);
-            DataGridFeltolt();
+            string email = userEmail.Text.Trim().ToLower();
+            bool emailExists = users.Any(u => u.email.Trim().ToLower() == email);
+            if (!emailExists)
+            {
+                try
+                {
+                    string url = "http://localhost:3000/users";
+                    User newUser = new User()
+                    {
+                        nev = userName.Text.Trim(),
+                        email = userEmail.Text.Trim(),
+                        szul_datum = userDate.SelectedDate?.ToString("yyyy-MM-dd"),
+                        jelszo = userPwd1.Password.Trim()
+                    };
+                    string response = Backend.POST(url).Body(newUser).Send().As<string>();
+                    users.Add(newUser);
+                    MessageBox.Show(response);
+                    DataGridFeltolt();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Hiba! {ex}");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Ez az e-mail cím már regisztrálva van!");
+            }
+
+
         }
+
+        
     }
 }
