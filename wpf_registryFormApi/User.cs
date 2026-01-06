@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace wpf_registryFormApi
 {
-    internal class User
+    public class User
     {
 
         public string nev { get; set; }

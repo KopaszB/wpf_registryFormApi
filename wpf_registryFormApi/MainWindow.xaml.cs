@@ -20,6 +20,7 @@ namespace wpf_registryFormApi
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+     
     public partial class MainWindow : Window
     {
         List<User> users = new List<User>();
@@ -108,36 +109,49 @@ namespace wpf_registryFormApi
         {
             string email = userEmail.Text.Trim().ToLower();
             bool emailExists = users.Any(u => u.email.Trim().ToLower() == email);
-            if (!emailExists)
+
+            if (userName.Text != null && userEmail.Text != null && userDate.SelectedDate.Value != null && userPwd1.Password != null && userPwd2.Password != null && conditions.IsChecked == true)
             {
-                try
+                if (!emailExists)
                 {
-                    string url = "http://localhost:3000/users";
-                    User newUser = new User()
+                    try
                     {
-                        nev = userName.Text.Trim(),
-                        email = userEmail.Text.Trim(),
-                        szul_datum = userDate.SelectedDate?.ToString("yyyy-MM-dd"),
-                        jelszo = userPwd1.Password.Trim()
-                    };
-                    string response = Backend.POST(url).Body(newUser).Send().As<string>();
-                    users.Add(newUser);
-                    MessageBox.Show(response);
-                    DataGridFeltolt();
+                        string url = "http://localhost:3000/users";
+                        User newUser = new User()
+                        {
+                            nev = userName.Text.Trim(),
+                            email = userEmail.Text.Trim(),
+                            szul_datum = userDate.SelectedDate?.ToString("yyyy-MM-dd"),
+                            jelszo = userPwd1.Password.Trim()
+                        };
+                        string response = Backend.POST(url).Body(newUser).Send().As<string>();
+                        users.Add(newUser);
+                        MessageBox.Show(response);
+                        DataGridFeltolt();
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Hiba! {ex}");
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    MessageBox.Show($"Hiba! {ex}");
+                    MessageBox.Show("Ez az e-mail cím már regisztrálva van!");
                 }
             }
-            else
+            else 
             {
-                MessageBox.Show("Ez az e-mail cím már regisztrálva van!");
+                MessageBox.Show("Kérem töltse ki az összes mezőt és fogadja el a feltételeket!");
+                return;
             }
-
-
+            
         }
 
-        
+        private void Hyperlink_Click(object sender, RoutedEventArgs e)
+        {
+            LogInWindow logInWindow = new LogInWindow();
+            logInWindow.Show();
+            this.Hide();
+        }
     }
 }

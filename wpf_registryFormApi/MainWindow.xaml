@@ -35,7 +35,11 @@
             <Button Name="registration" Margin="45 20 45 10" Background="Black" Foreground="White" Padding="0 10" Content="Regisztráció" Click="Registration_Click"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Margin="0 0 5 0">Már van fiókod?</TextBlock>
-                <TextBlock><Hyperlink>Jelentkezz be</Hyperlink></TextBlock>
+                <TextBlock>
+                    <Hyperlink Click="Hyperlink_Click">
+                        Jelentkezz be
+                    </Hyperlink>
+                </TextBlock>
             </StackPanel>
         </StackPanel>
 
