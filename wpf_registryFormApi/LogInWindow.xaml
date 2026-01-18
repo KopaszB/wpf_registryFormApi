@@ -22,7 +22,7 @@
             
             <Button Name="login" Margin="45 20 45 10" Background="Black" Foreground="White" Padding="0 10" Content="Bejelentkezés"
                     FontSize="15"
-                    FontWeight="DemiBold" Click="login_Click"/>
+                    FontWeight="DemiBold" Click="login_Click" IsDefault="True"/>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <TextBlock Margin="0 0 5 0">Még nem regisztráltál?</TextBlock>
                 <TextBlock>

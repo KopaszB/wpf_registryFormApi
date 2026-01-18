@@ -28,7 +28,7 @@ namespace wpf_registryFormApi
         }
         private void ListaFeltolt()
         {
-            string url = "http://localhost:3000/all";
+            string url = "http://localhost:3000/users";
             users = Backend.GET(url).Send().As<List<User>>();
         }
         private void Hyperlink_Click(object sender, RoutedEventArgs e)
@@ -51,6 +51,27 @@ namespace wpf_registryFormApi
                 UserDataWindow userDataWindow = new UserDataWindow();
                 userDataWindow.Show();
                 this.Close();
+            }
+            else if (userEmail.Text == "admin" && userPwd.Password == "admin")
+            {
+                AdminWindow adminWindow = new AdminWindow();
+                adminWindow.Show();
+                this.Close();
+            }
+            else if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
+            {
+                MessageBox.Show("Kérem töltse ki az összes mezőt!");
+                return;
+            }
+            else if (!users.Any(u => u.email == email))
+            {
+                MessageBox.Show("Nincs ilyen email cím regisztrálva!");
+                return;
+            }
+            else if (!users.Any(u => u.jelszo == password))
+            {
+                MessageBox.Show("Hibás jelszó!");
+                return;
             }
             else
             {

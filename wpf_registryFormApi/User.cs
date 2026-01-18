@@ -8,7 +8,7 @@ namespace wpf_registryFormApi
 {
     public class User
     {
-
+        public int id { get; set; }
         public string nev { get; set; }
         public string email { get; set; }
         public string szul_datum { get; set; }

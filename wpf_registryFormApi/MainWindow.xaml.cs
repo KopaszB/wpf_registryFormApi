@@ -32,7 +32,7 @@ namespace wpf_registryFormApi
         }
         private void DataGridFeltolt()
         {
-            string url = "http://localhost:3000/all";
+            string url = "http://localhost:3000/users";
             users = Backend.GET(url).Send().As<List<User>>();
             usersTable.ItemsSource = users;
         }
